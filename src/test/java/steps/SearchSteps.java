@@ -1,5 +1,6 @@
 package steps;
 
+import dev.failsafe.internal.util.Assert;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
@@ -77,4 +78,25 @@ public class SearchSteps {
     public void iShouldSeeAllResults() {
         searchPage.totalResults();
     }
-}
+
+    @And("I click on more search options")
+    public void iClickOnMoreSearchOptions() {
+        searchPage.getAdvancedSearch();
+    }
+
+    @And("I enter {string} as the employer name")
+    public void iEnterAsTheEmployerName(String employer) {
+        searchPage.getEmployer(employer);
+    }
+
+    @Then("I should see job results related to {string} in {string} for employer {string}")
+    public void iShouldSeeJobResultsRelatedToInForEmployer(String keyword, String location, String employer) {
+         searchPage.isResultDisplayed(keyword, location, employer);
+    }
+
+    @And("I select {string} as the distance")
+    public void iSelectAsTheDistance(String distance) {
+        searchPage.selectDistance(distance);
+    }
+
+    }

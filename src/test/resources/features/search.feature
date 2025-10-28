@@ -68,3 +68,20 @@ Feature: NHS Jobs Search Functionality
     And I click the search button
     Then I should see job results related to location "London"
 
+  Scenario: Search jobs by entering keyword, location, and employer name
+    Given I am on the NHS Jobs search page
+    When I enter "Nurse" in the keyword field
+    And I enter "London" in the location field
+    And I click on more search options
+    And I enter "NHS England" as the employer name
+    And I click the search button
+    Then I should see job results related to "Nurse" in "London" for employer "NHS England"
+
+
+  Scenario: Search jobs by entering keyword, location, and selecting distance
+    Given I am on the NHS Jobs search page
+    When I enter "Nurse" in the keyword field
+    And I enter "London" in the location field
+    And I select "+10 Miles" as the distance
+    And I click the search button
+    Then I should see job results related to "Nurse" in "London"

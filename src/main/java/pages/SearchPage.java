@@ -16,12 +16,16 @@ public class SearchPage {
     WebDriverWait wait;
 
 
-    By keywordField = By.id("keyword");
-    By locationField = By.id("location");
-    By searchButton = By.id("search");
-    By resultsContainer = By.id("search-results-heading");
-    By sortDropdown= By.id("sort");
-    By errorField= By.xpath("//*[@id=\"maincontent\"]/div/h2");
+    private By keywordField = By.id("keyword");
+    private By locationField = By.id("location");
+    private By searchButton = By.id("search");
+    private By resultsContainer = By.id("search-results-heading");
+    private By sortDropdown= By.id("sort");
+    private By errorField= By.xpath("//*[@id=\"maincontent\"]/div/h2");
+    private By moreSearchOptionField= By.id("searchOptionsBtn");
+    private By employerField= By.id("employer");
+    private By distanceDropdown = By.id("distance");
+
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
@@ -47,8 +51,9 @@ public class SearchPage {
 
     public void verifyResults(String keyword, String location) {
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(resultsContainer));
-        assert driver.findElement(resultsContainer).getText().contains(keyword);
+        String result=wait.until(ExpectedConditions.visibilityOfElementLocated(resultsContainer)).getText();
+        assert result.contains(keyword);
+        assert result.contains(location);
     }
 
     public void verifyNoResults() {
@@ -106,5 +111,27 @@ public class SearchPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(resultsContainer));
         assert driver.findElement((resultsContainer)).getText().contains("jobs found");
     }
+    public void getAdvancedSearch(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(moreSearchOptionField)).click();
+    }
+    public void getEmployer(String employer){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(employerField)).sendKeys(employer);
+    }
+
+    public void isResultDisplayed(String keyword, String location, String employer) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(resultsContainer));
+        String text = driver.findElement(resultsContainer).getText();
+        assert text.contains(keyword);
+        assert text.contains(location);
+        assert text.contains(employer);
+
+    }
+    public void selectDistance(String distance){
+        WebElement dropdownElement = wait.until(ExpectedConditions.visibilityOfElementLocated(distanceDropdown));
+        Select select = new Select(dropdownElement);
+        select.selectByVisibleText(distance);
+        System.out.println("✅ Selected distance: " + distance);
+    }
+
 }
 
